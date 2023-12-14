@@ -1,0 +1,162 @@
+==============================================================================INSTALACIÓN DOCKER UBUNTU==============================================================================
+
+
+sudo apt update     										¿? Actualizar las listas de paquetes disponibles en los repositorios, hacer esto siempre antes de cada instalación
+
+
+
+
+sudo apt install apt-transport-https ca-certificates curl software-properties-common     	¿? Instala una serie de paquetes en un sistema basado en Debian o Ubuntu
+
+    		 apt-transport-https:								Este paquete permite a la herramienta 'apt' descargar paquetes desde servidores que utilizan el protocolo HTTPS.
+    				     ca-certificates:						Contiene certificados de autoridad (CA) que son necesarios para verificar la autenticidad de los certificados SSL/TLS utilizados por los servidores remotos.
+     						     curl:					Herramienta de línea de comandos utilizada para transferir datos con URL. 
+     							  software-properties-common:		Proporciona scripts y utilidades comunes relacionadas con la administración de repositorios de software.
+
+
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add    			¿? Instala las claves del repositorio de docker
+
+      f --fail:											curl devuelve un código de salida no cero si la descarga falla.
+       s --silent:										curl funciona en modo silencioso, sin mostrar información del progreso.
+        S --show-error:										curl muestra un mensaje de error si se encuentra algún error.
+         L --location:										curl sigue las redirecciones. Si la URL devuelve una respuesta de redirección, curl seguirá esa dirección hasta alcanzar la ubicación final
+	   https://download.docker.com/linux/ubuntu/gpg:					Esta es la URL desde la cual se descarga la clave de firma GPG de Docker
+							|:					Toma la salida del comando a la izquierda y la pasa como entrada al comando a la derecha 
+							  sudo apt-key add:			Agrega la clave GPG que se ha descargado a la base de datos de claves GPG del sistema. La clave GPG se utiliza para verificar la autenticidad e integridad de los paquetes de Docker que se descargan e instalan posteriormente.
+
+
+
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable" ¿? Agrega el repositorio de Docker correctamente en un sistema Ubuntu.
+
+
+
+sudo apt install docker-ce									¿? Instala docker en sistemas basados en Debian o Ubuntu, usando el sistema de gestión de paquetes 'apt'
+    		 docker-ce:									Nombre del paquete que se instalará, en este caso, 'Docker Community Edition (CE)'. 
+
+
+
+
+==============================================================================COMANDOS AYUDA EXTRA==============================================================================
+
+sudo systemctl status docker 		¿? Obtendrá información detallada sobre el estado actual del servicio Docker.
+
+     systemctl: 			Es una herramienta de control de Systemd, que es el sistema de inicio y gestión de servicios más común en sistemas Linux modernos.
+               status:			Subcomando de systemctl que se utiliza para mostrar el estado actual de un servicio.
+		      docker 		Nombre del servicio que queremos verificar, en este caso, 'docker'
+
+
+
+sudo usermod -aG docker $(USER) 	¿? Añade el usuario actual al grupo docker.
+
+     usermod:				Se utiliza para modificar las configuraciones de usuario en sistemas basados en Unix y Linux.
+              a --append:		Agrega el usuario al grupo sin quitarlo de otros grupos.
+               G --groups:		Especifica el grupo al que se debe agregar al usuario, en este caso, el grupo 'docker'.
+                        $(USER)		Esto se sustituye por el nombre del usuario actual. $(USER) es una expansión de shell que representa el nombre de usuario actual.
+
+
+
+id -nG					¿?  Muestra los nombres de los grupos a los que pertenece el usuario actual en un sistema Unix o Linux. 
+id: 					Es un comando que imprime información sobre el usuario y el grupo actual.
+    n: 					Muestra los nombres de usuario y grupo en lugar de los identificadores numéricos (UID y GID).
+     G: 				Muestra la lista de grupos a los que pertenece el usuario.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+==================================================================================================================================================================
+==============================================================================DOCKER==============================================================================
+==================================================================================================================================================================
+
+------------------------------------------------------------------------------IMAGES------------------------------------------------------------------------------
+Es un paquete ligero y autónomo que contiene todo lo necesario para ejecutar una pieza de software, incluidos el código, el entorno de ejecución, las bibliotecas, las dependencias y las configuraciones. 
+En términos simples, una imagen de Docker es una plantilla a partir de la cual se pueden crear contenedores.
+Las imágenes de Docker encapsulan entornos de aplicación y facilitan la portabilidad, la distribución y la ejecución consistente de aplicaciones en diferentes entornos y plataformas.
+
+
+
+docker pull hello-world		¿? Se usa para descargar la imagen 'hello-world'
+
+
+
+docker images 			¿? Lista las imágenes de Docker que están almacenadas localmente en tu sistema. 
+
+Muestra:
+	REPOSITORY: 		El nombre del repositorio al que pertenece la imagen.
+	TAG: 	    		La etiqueta asociada con la imagen, que indica una versión específica o una variante.
+	IMAGE ID: 		Un identificador único de la imagen.
+	CREATED: 		La fecha en que se creó la imagen.
+	SIZE: 			El tamaño de la imagen en disco.
+
+
+
+docker rmi hello-world		¿? Elimina la imagen 'hello-world'
+docker rmi 067m			¿? Elimina la imagen '067m'
+
+
+
+
+
+-----------------------------------------------------------------------------CONTAINER-----------------------------------------------------------------------------
+Un contenedor Docker es una instancia en tiempo de ejecución de una imagen de Docker. 
+Los contenedores son entornos aislados y ligeros que encapsulan una aplicación y todas sus dependencias, incluidos el sistema operativo, las bibliotecas y el código, permitiendo que la aplicación se ejecute de manera coherente en cualquier entorno que admita Docker.
+Los contenedores Docker ofrecen una forma consistente y eficiente de empaquetar, distribuir y ejecutar aplicaciones, lo que simplifica el desarrollo, la implementación y la gestión de aplicaciones en entornos modernos de desarrollo y operaciones.ç
+
+
+
+docker run -it --name prueba hello-world 	¿? Ejecuta un contenedor basado en la imagen 'hello-world' de Docker en primer plano, y llama a este contenedor 'prueba'
+
+       run: 					Crea y ejecuta el contenedor a partir de la imagen.
+	    i --interactive:			Permite la interactividad con el contenedor.
+	     t --tty:				Asocia un terminal a la entrada estándar del contenedor.
+		 name prueba: 			Este argumento establece el nombre del contenedor como "prueba".
+	      		     hello-world:	Nombre de la imagen que se usará para la creación del contenedor.
+
+
+docker run -d hello-world 			¿? Ejecuta un contenedor basado en la imagen 'hello-world' de Docker en segundo plano
+
+	    d --:				Este es un argumento que indica a Docker que el contenedor debe ejecutarse en modo "demonio" (background).
+
+
+
+docker ps -a					¿? Lista todos los contenedores que existen en tu sistema, incluidos los que están en ejecución y los que están detenidos. 
+       ps: 					Lista los contenedores que están actualmente en ejecución en tu sistema.
+	   a:					Lista los contenedores que están actualmente detenidos en tu sistema.
+
+Muestra: 
+	CONTAINER ID: 				Identificador único asignado al contenedor.
+	IMAGE: 					Nombre de la imagen a partir de la cual se creó el contenedor.
+	COMMAND: 				Comando que se ejecuta dentro del contenedor.
+	CREATED: 				Tiempo transcurrido desde la creación del contenedor.
+	STATUS: 				Estado actual del contenedor.
+	PORTS: 					Puertos mapeados entre el sistema host y el contenedor.
+
+
+
+docker rm prueba				¿? Elimina el contenedor 'prueba'
+docker rm 250					¿? Elimina el contenedor '250'
+
+
+
+docker start 					¿? Inicia un contenedor que esta detenido.
+
+
+
+docker exec -it prueba bash
+
+
+
+
